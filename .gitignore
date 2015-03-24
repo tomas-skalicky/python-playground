@@ -1,0 +1,20 @@
+#####
+# Eclipse folders and files
+#####
+.metadata/
+RemoteSystemsTempFiles/
+.project
+.pydevproject
+
+
+#####
+# Python files
+#####
+*.pyc
+
+
+#####
+# By-code generated files
+#####
+*.log
+
