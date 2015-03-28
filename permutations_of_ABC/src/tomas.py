@@ -1,91 +1,91 @@
 import sys
 
 
-def compute_permutation_count(permutation_array):
+def compute_wanted_tuple_count(permutation):
     
-    permutation_count = 0
+    tuple_count = 0
     a_count = 0
     b_count = 0
     
-    for char in permutation_array:
+    for char in permutation:
         if char == 'A':
             a_count += 1
         elif char == 'B':
-            permutation_count += a_count
+            tuple_count += a_count
             b_count += 1
         elif char == 'C':
-            permutation_count += a_count + b_count
+            tuple_count += a_count + b_count
     
-    return permutation_count
+    return tuple_count
 
 
-# If a valid permutation exists, returns an array with any (e.g. ['A', 'B', 'B'] for arguments string_length=3 and target_permutation_count=2)
+# If a valid permutation exists, returns an array with any (e.g. ['A', 'B', 'B'] for arguments permutation_length=3 and target_tuple_count=2)
 # Otherwise, returns an empty array.
-def get_permutation_array(string_length, target_permutation_count):
+def get_permutation(permutation_length, target_tuple_count):
     
     first_index = 0
-    last_index = string_length - 1
+    last_index = permutation_length - 1
     
-    permutation_array = ['A'] * string_length
+    permutation = ['A'] * permutation_length
     
-    count_changed_in_last_iteration = 0
+    change_count_in_last_iteration = 0
     
-    previous_permutation_count = compute_permutation_count(permutation_array)
+    previous_tuple_count = compute_wanted_tuple_count(permutation)
     previous_index = last_index
-    previous_permutation_item_value = permutation_array[previous_index]
+    previous_permutation_item_value = permutation[previous_index]
     
     current_index = last_index
-    current_permutation_count = compute_permutation_count(permutation_array)
+    current_tuple_count = compute_wanted_tuple_count(permutation)
     
     iteration_counter = 0
     recalculation_counter = 0
     
     while True:
         iteration_counter += 1
-#         print('target_permutation_count         ' + str(target_permutation_count))
-#         print('previous_permutation_count       ' + str(previous_permutation_count))
-#         print('current_permutation_count        ' + str(current_permutation_count))
+#         print('target_tuple_count               ' + str(target_tuple_count))
+#         print('previous_tuple_count             ' + str(previous_tuple_count))
+#         print('current_tuple_count              ' + str(current_tuple_count))
 #         print('previous_index                   ' + str(previous_index))
 #         print('current_index                    ' + str(current_index))
 #         print('previous_permutation_item_value  ' + str(previous_permutation_item_value))
-#         print('permutation_array                ' + ''.join(permutation_array))
-#         print('count_changed_in_last_iteration  ' + str(count_changed_in_last_iteration))
+#         print('permutation                      ' + ''.join(permutation))
+#         print('change_count_in_last_iteration   ' + str(change_count_in_last_iteration))
         
-        if (current_permutation_count == target_permutation_count):
+        if (current_tuple_count == target_tuple_count):
 #             print('iteration_counter         ' + str(iteration_counter))
 #             print('recalculation_counter     ' + str(recalculation_counter))
-            return permutation_array
+            return permutation
         
         if current_index < first_index:
-            if count_changed_in_last_iteration == 0:
+            if change_count_in_last_iteration == 0:
 #                 print('iteration_counter         ' + str(iteration_counter))
 #                 print('recalculation_counter     ' + str(recalculation_counter))
                 return []
             else:
-                count_changed_in_last_iteration = 0
+                change_count_in_last_iteration = 0
                 current_index = last_index
          
         else:
-            if current_permutation_count < previous_permutation_count or current_permutation_count > target_permutation_count:
-                count_changed_in_last_iteration -= 1
-                permutation_array[previous_index] = previous_permutation_item_value
-                current_permutation_count = previous_permutation_count
+            if current_tuple_count < previous_tuple_count or current_tuple_count > target_tuple_count:
+                change_count_in_last_iteration -= 1
+                permutation[previous_index] = previous_permutation_item_value
+                current_tuple_count = previous_tuple_count
         
-            elif (current_permutation_count < target_permutation_count):
+            elif (current_tuple_count < target_tuple_count):
                 
-                if permutation_array[current_index] == 'A' or permutation_array[current_index] == 'B':
-                    previous_permutation_item_value = permutation_array[current_index]
-                    previous_permutation_count = current_permutation_count
-                    count_changed_in_last_iteration += 1
+                if permutation[current_index] == 'A' or permutation[current_index] == 'B':
+                    previous_permutation_item_value = permutation[current_index]
+                    previous_tuple_count = current_tuple_count
+                    change_count_in_last_iteration += 1
                 
-                    if permutation_array[current_index] == 'A':
-                        permutation_array[current_index] = 'B'
-                    elif permutation_array[current_index] == 'B':
-                        permutation_array[current_index] = 'C'
+                    if permutation[current_index] == 'A':
+                        permutation[current_index] = 'B'
+                    elif permutation[current_index] == 'B':
+                        permutation[current_index] = 'C'
                 
                     recalculation_counter += 1
-                    current_permutation_count = compute_permutation_count(permutation_array)
-#                     print('permutation_array                ' + ''.join(permutation_array))
+                    current_tuple_count = compute_wanted_tuple_count(permutation)
+#                     print('permutation                ' + ''.join(permutation))
                     
                 previous_index = current_index
                 current_index -= 1
@@ -95,19 +95,19 @@ def is_greater(a, b):
     return ord(a) < ord(b)
 
 
-def construct_permutations(permutation_array):
+def construct_wanted_tuples(permutation):
     
-    permutations = []
+    tuples = []
     
-    for j in range(1, len(permutation_array)):
+    for j in range(1, len(permutation)):
         for i in range(0, j):
-            if is_greater(permutation_array[i], permutation_array[j]):
-                permutations.append((str(i), str(j)))
+            if is_greater(permutation[i], permutation[j]):
+                tuples.append((str(i), str(j)))
             
-    return permutations
+    return tuples
 
 
-permutation_array = get_permutation_array(string_length=int(sys.argv[1]), target_permutation_count=int(sys.argv[2]))
-print('"{}"'.format(''.join(permutation_array)))
-if len(permutation_array) > 0:
-    print('[{}]'.format(', '.join(['({})'.format(','.join(permutation)) for permutation in construct_permutations(permutation_array)])))
+permutation = get_permutation(permutation_length=int(sys.argv[1]), target_tuple_count=int(sys.argv[2]))
+print('"{}"'.format(''.join(permutation)))
+if len(permutation) > 0:
+    print('[{}]'.format(', '.join(['({})'.format(','.join(my_tuple)) for my_tuple in construct_wanted_tuples(permutation)])))
