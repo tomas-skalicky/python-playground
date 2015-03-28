@@ -19,7 +19,7 @@ def compute_permutation_count(permutation_array):
     return permutation_count
 
 
-# If a valid permutation exists, returns an array with any (e.g. ['A', 'B', 'B'] for arguments 3 and 2)
+# If a valid permutation exists, returns an array with any (e.g. ['A', 'B', 'B'] for arguments string_length=3 and target_permutation_count=2)
 # Otherwise, returns an empty array.
 def get_permutation_array(string_length, target_permutation_count):
     
@@ -107,10 +107,7 @@ def construct_permutations(permutation_array):
     return permutations
 
 
-string_length = int(sys.argv[1])
-permutation_count = int(sys.argv[2])
-
-permutation_array = get_permutation_array(string_length, permutation_count)
+permutation_array = get_permutation_array(string_length=int(sys.argv[1]), target_permutation_count=int(sys.argv[2]))
 print('"{}"'.format(''.join(permutation_array)))
 if len(permutation_array) > 0:
     print('[{}]'.format(', '.join(['({})'.format(','.join(permutation)) for permutation in construct_permutations(permutation_array)])))
